@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.setine.mybatis.loggingtime.LoggingTimeMapper">
+
+	<resultMap type="LoggingTime" id="LoggingTimeResultMap">
+		<result property="Key" column="Key" />
+		<result property="Date" column="Date" />
+		<result property="Time" column="Time" />
+		<result property="count" column="count" />
+		<result property="sum_count" column="sum_count" />
+	</resultMap>
+
+	<select id="getLists" resultMap="LoggingTimeResultMap">
+		SELECT * FROM loggingtime;
+	</select>
+
+	<select id="getCount" resultMap="LoggingTimeResultMap">
+		SELECT * FROM loggingtime WHERE `Key` = 3;
+	</select>
+	<select id="getActiveLists" resultMap="LoggingTimeResultMap">
+		SELECT * FROM loggingtime WHERE `Date` = #{date};
+	</select>
+	<select id="getActiveLists_time" resultMap="LoggingTimeResultMap">
+	SELECT * FROM loggingtime WHERE `Time` > CONCAT(#{date},' ',#{hour},':00:00') AND  CONCAT(#{date},' ',#{hour},':59:59') >= `Time`;	
+	</select>
+	<select id="getActiveLists_date" resultMap="LoggingTimeResultMap">
+	SELECT * FROM loggingtime WHERE `Date` = #{date};
+	</select>
+	
+	<insert id="insertData">
+	INSERT INTO loggingtime (`Date`, `count`, `sum_count`, `max_date`, `max_count`) VALUES (#{date}, ${active_user}, ${sum_count}, #{max_date}, ${max_count});
+	</insert>
+</mapper>

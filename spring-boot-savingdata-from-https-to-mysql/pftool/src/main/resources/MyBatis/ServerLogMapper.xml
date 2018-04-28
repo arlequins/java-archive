@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.setine.mybatis.serverlog.ServerLogMapper">
+
+	<resultMap type="ServerLog" id="ServerLogResultMap">
+		<result property="Key" column="Key" />
+		<result property="Name" column="Name" />
+		<result property="Time" column="Time" />
+		<result property="Status" column="Status" />
+	</resultMap>
+
+	<select id="getLists" resultMap="ServerLogResultMap">
+		SELECT * FROM serverlog LIMIT 0,2;
+	</select>
+
+	<select id="getCount" resultMap="ServerLogResultMap">
+		SELECT * FROM serverlog WHERE `Key` = 3;
+	</select>
+	
+	<update id="updateData">
+	UPDATE serverlog SET `Time`='${Time}', `Status`='${Status}' WHERE `Key`=${Key};
+	</update>
+</mapper>

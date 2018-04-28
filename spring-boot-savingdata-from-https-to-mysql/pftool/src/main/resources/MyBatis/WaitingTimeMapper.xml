@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.setine.mybatis.waitingtime.WaitingTimeMapper">
+
+	<resultMap type="WaitingTime" id="WaitingTimeResultMap">
+		<result property="_primary_key" column="primary_key" />
+		<result property="_date" column="date" />
+		<result property="_key" column="key" />
+		<result property="_melee" column="melee" />
+		<result property="_healer" column="healer" />
+		<result property="_tank" column="tank" />
+		<result property="_ranged" column="ranged" />
+	</resultMap>
+
+	<select id="getList" resultMap="WaitingTimeResultMap">
+		SELECT * FROM waitingtime WHERE MONTH(`date`) = ${month} AND YEAR(`date`) = ${year};
+	</select>
+	
+	<select id="getLastTime" resultMap="WaitingTimeResultMap">
+		SELECT * FROM waitingtime ORDER BY `primary_key` DESC LIMIT 1;
+	</select>
+
+	<insert id="insertData" parameterType="java.util.List">
+	INSERT INTO waitingtime (`date`, <!--  `server`, `world`, `host`, `instance`,--> `key`, `melee`, `healer`, `tank`, `ranged`) 
+	VALUES 
+	<foreach collection="list" item="WaitingTime" open="(" separator="),(" close=")">
+	#{WaitingTime._date}, <!--  #{_server}, #{_world}, #{_host}, #{_instance},--> #{WaitingTime._key}, ${WaitingTime._melee},${WaitingTime._healer},${WaitingTime._tank},${WaitingTime._ranged}
+	</foreach>;
+	</insert>
+	<insert id="insertData_one">
+	INSERT INTO waitingtime (`date`, <!--  `server`, `world`, `host`, `instance`,--> `key`, `melee`, `healer`, `tank`, `ranged`) 
+	VALUES 
+	(#{WaitingTime._date}, <!--  #{_server}, #{_world}, #{_host}, #{_instance},--> #{WaitingTime._key}, ${WaitingTime._melee},${WaitingTime._healer},${WaitingTime._tank},${WaitingTime._ranged});
+	</insert>
+</mapper>
